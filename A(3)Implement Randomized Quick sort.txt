@@ -1,0 +1,44 @@
+import random
+
+def quick_sort(arr):
+    comparisons = 0
+
+    def partition(arr, low, high):
+        nonlocal comparisons
+        pivot_index = random.randint(low, high)
+        pivot = arr[pivot_index]
+        arr[low], arr[pivot_index] = arr[pivot_index], arr[low]
+        i = low + 1
+        for j in range(low + 1, high + 1):
+            if arr[j] < pivot:
+                comparisons += 1
+                arr[j], arr[i] = arr[i], arr[j]
+                i += 1
+        arr[low], arr[i - 1] = arr[i - 1], arr[low]
+        return i - 1
+
+    def quick_sort_helper(arr, low, high):
+        nonlocal comparisons
+        if low < high:
+            pivot_index = partition(arr, low, high)
+            comparisons += high - low
+            quick_sort_helper(arr, low, pivot_index - 1)
+            quick_sort_helper(arr, pivot_index + 1, high)
+
+    quick_sort_helper(arr, 0, len(arr) - 1)
+    return comparisons
+
+arr = [5, 2, 8, 12, 3]
+comparisons = quick_sort(arr)
+print("Number of comparisons:", comparisons)
+print("Sorted array:", arr)
+
+--------------------------------------------------------
+arr = [5, 2, 8, 12, 3]
+comparisons = quick_sort(arr)
+print("Number of comparisons:", comparisons)
+print("Sorted array:", arr)
+
+----------------------------------------------------------
+Number of comparisons: 6
+Sorted array: [2, 3, 5, 8, 12]
