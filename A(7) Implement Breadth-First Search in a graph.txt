@@ -1,0 +1,27 @@
+from collections import deque
+
+def bfs(adj_list, start):
+    visited = set()    # To keep track of visited nodes
+    queue = deque()    # Queue for BFS
+    
+    visited.add(start)
+    queue.append(start)
+    
+    while queue:
+        node = queue.popleft()
+        print(node, end=" ")
+        
+        # Visit all neighbors of the current node that haven't been visited
+        for neighbor in adj_list[node]:
+            if neighbor not in visited:
+                visited.add(neighbor)
+                queue.append(neighbor)
+
+---------------------------------------------------------------------------------------------------
+Here, bfs() takes an adjacency list adj_list as input, which is a dictionary where the keys are the nodes of the graph and the values are lists of the neighbors of each node. The function also takes a starting node start as input.
+
+The function first initializes a set visited to keep track of visited nodes, and a deque object queue to store nodes for BFS. It adds the starting node to both visited and queue.
+
+The function then enters a loop that continues as long as the queue is not empty. Inside the loop, it dequeues a node node from the front of the queue and prints it. It then visits all neighbors of node that haven't been visited yet. For each unvisited neighbor neighbor, the function adds it to visited and appends it to the back of the queue.
+
+Overall, the bfs() function will traverse the graph in breadth-first order, starting from the specified starting node.

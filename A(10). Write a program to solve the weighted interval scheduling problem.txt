@@ -1,0 +1,51 @@
+class Job:
+    def __init__(self, start, finish, weight):
+        self.start = start
+        self.finish = finish
+        self.weight = weight
+
+def binary_search(jobs, index):
+    lo, hi = 0, index - 1
+
+    while lo <= hi:
+        mid = (lo + hi) // 2
+        if jobs[mid].finish <= jobs[index].start:
+            if jobs[mid + 1].finish <= jobs[index].start:
+                lo = mid + 1
+            else:
+                return mid
+        else:
+            hi = mid - 1
+
+    return None
+
+def find_previous_job(jobs, index):
+    for i in range(index - 1, -1, -1):
+        if jobs[i].finish <= jobs[index].start:
+            return i
+
+    return None
+
+def find_optimal(jobs):
+    jobs.sort(key=lambda job: job.finish)
+    n = len(jobs)
+
+    opt = [0] * n
+    opt[0] = jobs[0].weight
+
+    for i in range(1, n):
+        incl = jobs[i].weight
+        prev = binary_search(jobs, i)
+
+        if prev is not None:
+            incl += opt[prev]
+
+        opt[i] = max(incl, opt[i - 1])
+
+    return opt[n - 1]
+
+# Example usage
+jobs = [Job(1, 3, 5), Job(2, 5, 6), Job(4, 6, 5), Job(6, 7, 4), Job(5, 8, 11), Job(7, 9, 2)]
+print(f"Maximum weight possible: {find_optimal(jobs)}")
+----------------------------------------------------------------------------------------------------------
+This program uses dynamic programming to find the optimal solution. It sorts the jobs by finish time and then calculates the maximum weight that can be obtained up to each job. It considers two cases for each job: either the job is included in the solution or it is not. If the job is included, then it adds its weight to the maximum weight that can be obtained up to the previous job that is compatible with it (i.e., its finish time is less than or equal to the start time of the current job). If the job is not included, then it simply takes the maximum weight that can be obtained up to the previous job. The program returns the maximum weight that can be obtained up to the last job.

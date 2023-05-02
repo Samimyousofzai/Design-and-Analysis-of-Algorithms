@@ -1,0 +1,23 @@
+def dfs(adj_list, start):
+    visited = set()    # To keep track of visited nodes
+    
+    def dfs_helper(node):
+        visited.add(node)
+        print(node, end=" ")
+        
+        # Recursively visit all neighbors of the current node that haven't been visited
+        for neighbor in adj_list[node]:
+            if neighbor not in visited:
+                dfs_helper(neighbor)
+    
+    dfs_helper(start)
+----------------------------------------------------------------------------------------------------------
+Here, dfs() takes an adjacency list adj_list as input, which is a dictionary where the keys are the nodes of the graph and the values are lists of the neighbors of each node. The function also takes a starting node start as input.
+
+The function first initializes a set visited to keep track of visited nodes. It then defines a nested function dfs_helper(node) that takes a node node as input and performs the DFS traversal starting from that node.
+
+The dfs_helper() function first marks the current node as visited and prints it. It then recursively visits all neighbors of the current node that haven't been visited yet. For each unvisited neighbor neighbor, the function calls itself with neighbor as the argument.
+
+The dfs() function then calls dfs_helper(start) to start the DFS traversal from the specified starting node.
+
+Overall, the dfs() function will traverse the graph in depth-first order, starting from the specified starting node.
