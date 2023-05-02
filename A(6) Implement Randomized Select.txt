@@ -1,0 +1,43 @@
+import random
+
+def randomized_select(arr, left, right, k):
+    # If the partition has only one element, return it
+    if left == right:
+        return arr[left]
+    
+    # Choose a random pivot index and partition the array
+    pivot_index = random.randint(left, right)
+    pivot_index = partition(arr, left, right, pivot_index)
+    
+    # If the pivot is the k-th element, return it
+    if k == pivot_index:
+        return arr[k]
+    # If k is less than the pivot index, recurse on the left partition
+    elif k < pivot_index:
+        return randomized_select(arr, left, pivot_index - 1, k)
+    # If k is greater than the pivot index, recurse on the right partition
+    else:
+        return randomized_select(arr, pivot_index + 1, right, k)
+        
+def partition(arr, left, right, pivot_index):
+    # Swap the pivot element with the last element to simplify the partitioning logic
+    arr[right], arr[pivot_index] = arr[pivot_index], arr[right]
+    
+    # Partition the array around the pivot element
+    i = left - 1
+    for j in range(left, right):
+        if arr[j] <= arr[right]:
+            i += 1
+            arr[i], arr[j] = arr[j], arr[i]
+    
+    # Move the pivot element to its final position
+    arr[i+1], arr[right] = arr[right], arr[i+1]
+    
+    return i+1
+
+--------------------------------------------------------------------------------------------
+Here, randomized_select() takes an array arr as input, as well as the left and right indices of the subarray to be searched and the value k representing the k-th smallest element to be found. The function first checks if the subarray has only one element and returns it if so. Otherwise, it chooses a random pivot index and partitions the array around the pivot using the partition() function. If the pivot element is the k-th smallest element, it returns it. Otherwise, it recurses on the left or right partition depending on whether k is less than or greater than the pivot index.
+
+The partition() function takes an array arr and the left and right indices of the subarray to be partitioned, as well as the index of the pivot element. It first swaps the pivot element with the last element of the subarray to simplify the partitioning logic. It then partitions the subarray into two parts: elements less than or equal to the pivot on the left, and elements greater than the pivot on the right. It returns the index of the final position of the pivot element.
+
+Overall, the randomized_select() function will return the k-th smallest element in the input array. The expected time complexity of the algorithm is O(n), where n is the length of the input array, due to the random selection of pivot elements.

@@ -1,0 +1,41 @@
+def bucket_sort(arr, bucket_size=10):
+    # Find minimum and maximum values in the input array
+    min_val = min(arr)
+    max_val = max(arr)
+    
+    # Calculate the number of buckets needed
+    bucket_count = (max_val - min_val) // bucket_size + 1
+    
+    # Create empty buckets
+    buckets = [[] for _ in range(bucket_count)]
+    
+    # Add values to the appropriate bucket
+    for num in arr:
+        bucket_index = (num - min_val) // bucket_size
+        buckets[bucket_index].append(num)
+    
+    # Sort each bucket using another sorting algorithm
+    for bucket in buckets:
+        insertion_sort(bucket)
+    
+    # Merge the sorted buckets into the output array
+    output = []
+    for bucket in buckets:
+        output.extend(bucket)
+    
+    return output
+
+def insertion_sort(arr):
+    for i in range(1, len(arr)):
+        key = arr[i]
+        j = i - 1
+        while j >= 0 and arr[j] > key:
+            arr[j + 1] = arr[j]
+            j -= 1
+        arr[j + 1] = key
+-------------------------------------------------------------------------------
+Here, bucket_sort() takes an array arr as input and an optional parameter bucket_size to determine the size of each bucket (default value is 10). The function first finds the minimum and maximum values in the input array to determine the range of values. It then calculates the number of buckets needed based on the range and the bucket size. Next, it creates an empty list of buckets, each of which is a list. It iterates through the input array and assigns each value to the appropriate bucket based on its value range. After all values have been assigned to buckets, the function sorts each bucket using an auxiliary sorting algorithm, in this case, Insertion Sort. Finally, it merges the sorted buckets into a single output array and returns it.
+
+The insertion_sort() function is a simple implementation of the Insertion Sort algorithm, which is used to sort each bucket.
+
+Overall, the bucket_sort() function will sort the input array in ascending order. Note that the performance of the algorithm depends heavily on the choice of bucket size and the underlying sorting algorithm used to sort the buckets.
